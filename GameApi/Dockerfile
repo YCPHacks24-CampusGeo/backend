@@ -16,7 +16,7 @@ RUN dotnet restore
 COPY . ./
 
 # Build the application
-RUN dotnet publish -a $TARGETARCH -c Release -o out
+RUN dotnet publish -r $TARGETARCH -c Release -o out
 
 # Runtime image
 FROM --platform=$BUILDPLATFORM mcr.microsoft.com/dotnet/aspnet:8.0
