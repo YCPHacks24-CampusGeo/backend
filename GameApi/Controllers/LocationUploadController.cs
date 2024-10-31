@@ -7,7 +7,7 @@ namespace GameApi.Controllers;
 public class LocationUploadController : ControllerBase
 {
     [HttpPost(Name = "UploadLocation")]
-    public void UploadLocation(GeoLocation geoLocation, LocationTag[] locationTags, string locationName)
+    public void UploadLocation(NewUploadedLocation uploadedLocation)
     {
 
     }
