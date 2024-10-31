@@ -28,9 +28,15 @@ jobs:
         password: ${{ secrets.GITHUB_TOKEN }}
     - name: Push Docker Image
       run: docker push ghcr.io/${{ steps.lower-repo.outputs.repository }}:latest
-  # ssh_droplet_update:
-    # needs: build_and_push_image
-    # uses: Unicycle-Unicorn/CICD/.github/workflows/droplet-ssh-pull-up.yml@main
-    # with:
-      # services: 'cam'
-    # secrets: inherit
+  ssh_droplet_update:
+    name: SSH to VM and Update Docker
+    runs-on: ubuntu-latest
+    steps:
+      - uses: appleboy/ssh-action@master
+        with:
+          host: ${{ vars.VM_DOMAIN_API }}
+          username: ubuntu
+          key: ${{ secrets.VM_SSHKEY_API }}
+          script: |
+            la -la
+            pwd
