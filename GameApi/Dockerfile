@@ -10,13 +10,13 @@ COPY *.csproj ./
 # Copy nuget if present
 # COPY NuGet.Config /root/.nuget/NuGet/NuGet.Config
 
-RUN dotnet restore
+RUN dotnet restore -a $TARGETARCH
 
 # Copy the remaining source code
 COPY . ./
 
 # Build the application
-RUN dotnet publish -c Release -o out
+RUN dotnet publish -a $TARGETARCH -c Release -o out
 
 # Runtime image
 FROM --platform=$BUILDPLATFORM mcr.microsoft.com/dotnet/aspnet:8.0
