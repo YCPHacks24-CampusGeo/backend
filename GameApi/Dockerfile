@@ -1,25 +1,31 @@
-#See https://aka.ms/customizecontainer to learn how to customize your debug container and how Visual Studio uses this Dockerfile to build your images for faster debugging.
+# Use the .NET 8.0 SDK image as base
+FROM mcr.microsoft.com/dotnet/sdk:8.0-alpine AS build-env
 
-FROM mcr.microsoft.com/dotnet/sdk:8.0-alpine AS base
-USER app
+# Set the working directory in the container
 WORKDIR /app
-EXPOSE 8080
-EXPOSE 8081
 
-FROM mcr.microsoft.com/dotnet/sdk:8.0-alpine AS build
-ARG BUILD_CONFIGURATION=Release
-WORKDIR /src
-COPY ["GameApi/GameApi.csproj", "GameApi/"]
-RUN dotnet restore "./GameApi/GameApi.csproj"
-COPY . .
-WORKDIR "/src/GameApi"
-RUN dotnet build "./GameApi.csproj" -c $BUILD_CONFIGURATION -o /app/build
+# Copy the .NET project file and restore dependencies
+COPY *.csproj ./
 
-FROM build AS publish
-ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./GameApi.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+# Copy nuget if present
+# COPY NuGet.Config /root/.nuget/NuGet/NuGet.Config
 
-FROM base AS final
+RUN dotnet restore
+
+# Copy the remaining source code
+COPY . ./
+
+# Build the application
+RUN dotnet publish -c Release -o out
+
+# Runtime image
+FROM mcr.microsoft.com/dotnet/aspnet:8.0-alpine
+
+# Set the working directory for the runtime
 WORKDIR /app
-COPY --from=publish /app/publish .
+
+# Copy the build output from the previous stage
+COPY --from=build-env /app/out .
+
+# Command to run the application
 ENTRYPOINT ["dotnet", "GameApi.dll"]
