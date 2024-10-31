@@ -30,7 +30,7 @@ jobs:
         password: ${{ secrets.GITHUB_TOKEN }}
     - name: Build Docker Image
       working-directory: ${{ github.workspace }}/GameApi
-      run: docker build . --tag ghcr.io/${{ steps.lower-repo.outputs.repository }}:latest --push true
+      run: docker build . --tag ghcr.io/${{ steps.lower-repo.outputs.repository }}:latest --push
     - name: SSH to VM and Update Docker
       uses: appleboy/ssh-action@master
       with:
