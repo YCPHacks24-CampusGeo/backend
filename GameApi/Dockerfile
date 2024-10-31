@@ -1,5 +1,5 @@
 # Use the .NET 8.0 SDK image as base
-FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build-env
+FROM --platform=$BUILDPLATFORM mcr.microsoft.com/dotnet/sdk:8.0 AS build-env
 
 # Set the working directory in the container
 WORKDIR /app
@@ -16,10 +16,10 @@ RUN dotnet restore
 COPY . ./
 
 # Build the application
-RUN dotnet publish -c Release -o out
+RUN dotnet publish -c Release -o out -a $TARGETARCH
 
 # Runtime image
-FROM mcr.microsoft.com/dotnet/aspnet:8.0
+FROM --platform=$BUILDPLATFORM mcr.microsoft.com/dotnet/aspnet:8.0
 
 # Set the working directory for the runtime
 WORKDIR /app
