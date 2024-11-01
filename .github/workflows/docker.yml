@@ -21,6 +21,7 @@ jobs:
       uses: docker/setup-buildx-action@v3
       with:
         platforms: linux/amd64,linux/arm64,linux/arm64/v8
+        driver-opts: 'image=moby/buildkit:v0.10.5'
         install: true
     - name: Login to GitHub Packages
       uses: docker/login-action@v3
