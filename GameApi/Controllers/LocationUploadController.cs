@@ -19,7 +19,10 @@ public class LocationUploadController : ControllerBase
 
         string path = $"/uploaded_locations/{Path.GetRandomFileName()}.json";
 
+        Console.WriteLine($"Creating file at: {path}");
+
         using FileStream fs = System.IO.File.Create(path);
         System.IO.File.WriteAllText(path, jsonString);
+        Console.WriteLine("File created and written successfully");
     }
 }
