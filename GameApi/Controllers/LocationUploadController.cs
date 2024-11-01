@@ -21,7 +21,6 @@ public class LocationUploadController : ControllerBase
 
         Console.WriteLine($"Creating file at: {path}");
 
-        using FileStream fs = System.IO.File.Create(path);
         System.IO.File.WriteAllText(path, jsonString);
         Console.WriteLine("File created and written successfully");
     }
