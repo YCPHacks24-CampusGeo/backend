@@ -1,14 +1,15 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace GameApi.Controllers;
-[Route("api/[controller]")]
+[Route("[controller]/[action]")]
 [ApiController]
 public class LocationUploadController : ControllerBase
 {
     [HttpPost(Name = "UploadLocation")]
     public void UploadLocation(NewUploadedLocation uploadedLocation)
     {
-
+        Console.WriteLine(uploadedLocation.Location.Latitude);
+        Console.WriteLine(uploadedLocation.Location.Longitude);
+        Console.WriteLine(uploadedLocation.base64JPG);
     }
 }
