@@ -1,14 +1,14 @@
 ARG TARGETARCH
 
-RUN echo "Target Arch:"
-RUN echo $TARGETARCH
-RUN echo "-----"
-
 # Use the .NET 8.0 SDK image as base
 FROM --platform=$BUILDPLATFORM mcr.microsoft.com/dotnet/sdk:8.0 AS build-env
 
 # Set the working directory in the container
 WORKDIR /app
+
+RUN echo "Target Arch:"
+RUN echo $TARGETARCH
+RUN echo "-----"
 
 # Copy the .NET project file and restore dependencies
 COPY *.csproj ./
