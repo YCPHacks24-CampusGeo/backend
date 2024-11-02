@@ -1,4 +1,6 @@
-﻿namespace GameApi;
+﻿using GameApi.Objects;
+
+namespace GameApi;
 
 public static class GameObjects
 {
@@ -19,17 +21,5 @@ public static class GameObjects
 
     public static List<string> Markers = [
         "Burns",
-        ];
-}
-
-public class Location
-{
-    public GeoLocation GeoLocation { get; set; }
-    public string ImageKey;
-
-    public Location(GeoLocation location, string imagekey)
-    {
-        GeoLocation = location;
-        ImageKey = imagekey;
-    }
+    ];
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using GameApi.Objects;
+using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
 
 namespace GameApi.Controllers;

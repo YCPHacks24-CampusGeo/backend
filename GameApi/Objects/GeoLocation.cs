@@ -1,4 +1,4 @@
-﻿namespace GameApi;
+﻿namespace GameApi.Objects;
 
 public class GeoLocation
 {
@@ -6,7 +6,7 @@ public class GeoLocation
     public double Longitude { get; set; }
 
     public GeoLocation() { }
-    
+
     public GeoLocation(double latitude, double longitude)
     {
         Latitude = latitude;
