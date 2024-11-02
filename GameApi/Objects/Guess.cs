@@ -32,7 +32,7 @@ ScalePoints
 internal static class ScoreCalculator
 {
     internal const double FULL_POINTS_THRESHOLD = 1d;
-    internal const double NO_POINTS_THRESHOLD = 500d;
+    internal const double NO_POINTS_THRESHOLD = 250d;
 
     internal const uint MAX_POINTS = 1_000;
 
@@ -75,7 +75,7 @@ internal static class ScoreCalculator
 
         //double result = Math.Sin(scaledDistance * Math.PI/2d);
 
-        double result = 1d - scaledDistance;
+        double result = scaledDistance;
         return Math.Clamp(result, 0d, 1d);
     }
 
