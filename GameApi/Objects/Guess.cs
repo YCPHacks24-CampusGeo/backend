@@ -69,7 +69,7 @@ internal static class ScoreCalculator
     internal static double CalculatePoints(double scaledDistance)
     {
         double result = (Math.Cos(0.01319d * Math.Pow(4532.18 * scaledDistance, 0.65)) + 1) / 2d;
-        return Math.Clamp(result, 0d, 1d);
+        return 1 - Math.Clamp(result, 0d, 1d);
     }
 
     internal static uint ScalePoints(double points)
