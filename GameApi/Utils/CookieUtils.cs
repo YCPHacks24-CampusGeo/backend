@@ -7,6 +7,8 @@ public class CookieUtils
     public const string GameKey = "GameKey";
     public const string HostKey = "HostKey";
     public const string PlayerKey = "PlayerKey";
+    public const string GameId = "GameId";
+    public const string GameStateId = "GameStateId";
 
 
     private static readonly CookieOptions CookieOptions = new()

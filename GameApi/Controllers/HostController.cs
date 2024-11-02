@@ -10,8 +10,8 @@ public class HostController : AbstractGameController
     [HttpGet]
     public IActionResult GetGuesses()
     {
-        string? gameId = GetGameIdHeader();
-        if (gameId == null) return NotFound("Game id header not found");
+        string? gameId = GetGameIdCookie();
+        if (gameId == null) return NotFound("Game id cookie not found");
 
         string? hostKey = GetHostKeyCookie(gameId);
         if (hostKey == null) return NotFound("Host key cookie not found");
@@ -19,8 +19,8 @@ public class HostController : AbstractGameController
         string? gameKey = GetGameKeyCookie(gameId);
         if (gameKey == null) return NotFound("Game key cookie not found");
 
-        string? gameStateId = GetGameStateIdHeader();
-        if (gameStateId == null) return NotFound("Game state id header not found");
+        string? gameStateId = GetGameStateIdCookie(gameId);
+        if (gameStateId == null) return NotFound("Game state id cookie not found");
 
         if (!ServerState.GetGame(gameId, out Game? game)) return NotFound("Game not found");
 
@@ -59,6 +59,7 @@ public class HostController : AbstractGameController
                 Game game = ServerState.CreateGame(gameOptions);
                 SetGameKeyCookie(game.GameId, game.GameKey);
                 SetHostKeyCookie(game.GameId, game.HostKey);
+                SetGameIdCookie(game.GameId);
                 return Ok(game.GameId);
 
             }
@@ -78,8 +79,8 @@ public class HostController : AbstractGameController
     [HttpPost]
     public IActionResult StartGame()
     {
-        string? gameId = GetGameIdHeader();
-        if (gameId == null) return NotFound("Game id header not found");
+        string? gameId = GetGameIdCookie();
+        if (gameId == null) return NotFound("Game id cookie not found");
 
         string? hostKey = GetHostKeyCookie(gameId);
         if (hostKey == null) return NotFound("Host key cookie not found");
@@ -87,8 +88,8 @@ public class HostController : AbstractGameController
         string? gameKey = GetGameKeyCookie(gameId);
         if (gameKey == null) return NotFound("Game key cookie not found");
 
-        string? gameStateId = GetGameStateIdHeader();
-        if (gameStateId == null) return NotFound("Game state id header not found");
+        string? gameStateId = GetGameStateIdCookie(gameId);
+        if (gameStateId == null) return NotFound("Game state id cookie not found");
 
         if (!ServerState.GetGame(gameId, out Game? game)) return NotFound("Game not found");
 

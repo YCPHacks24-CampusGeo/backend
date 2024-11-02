@@ -10,8 +10,8 @@ public class GameController : AbstractGameController
     [HttpGet]
     public IActionResult GetScores()
     {
-        string? gameId = GetGameIdHeader();
-        if (gameId == null) return NotFound("Game id header not found");
+        string? gameId = GetGameIdCookie();
+        if (gameId == null) return NotFound("Game id cookie not found");
 
         string? gameKey = GetGameKeyCookie(gameId);
         if (gameKey == null) return NotFound("Game key cookie not found");
@@ -37,8 +37,8 @@ public class GameController : AbstractGameController
     [HttpGet]
     public IActionResult GetGameState()
     {
-        string? gameId = GetGameIdHeader();
-        if (gameId == null) return NotFound("Game id header not found");
+        string? gameId = GetGameIdCookie();
+        if (gameId == null) return NotFound("Game id cookie not found");
 
         string? gameKey = GetGameKeyCookie(gameId);
         if (gameKey == null) return NotFound("Game key cookie not found");
@@ -47,11 +47,12 @@ public class GameController : AbstractGameController
 
         if (game.GameKey != gameKey) return Unauthorized("Game key incorrect");
 
+        SetGameStateIdCookie(gameId, game.GameStateId);
+
         return Ok(new
         {
-            TimeLeft = -1,
+            TimeLeft = (int) game.Timer.TimeLeft,
             GameState = game.GameState,
-            GameStateId = game.GameStateId,
         });
     }
 }

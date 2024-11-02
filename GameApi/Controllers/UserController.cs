@@ -10,14 +10,14 @@ public class UserController : AbstractGameController
     [HttpPost]
     public IActionResult MakeGuess([FromBody] GeoLocation location)
     {
-        string? gameId = GetGameIdHeader();
-        if (gameId == null) return NotFound("Game id header not found");
+        string? gameId = GetGameIdCookie();
+        if (gameId == null) return NotFound("Game id cookie not found");
 
         string? gameKey = GetGameKeyCookie(gameId);
         if (gameKey == null) return NotFound("Game key cookie not found");
 
-        string? gameStateId = GetGameStateIdHeader();
-        if (gameStateId == null) return NotFound("Game state id header not found");
+        string? gameStateId = GetGameStateIdCookie(gameId);
+        if (gameStateId == null) return NotFound("Game state id cookie not found");
 
         string? playerKey = GetPlayerKeyCookie(gameId);
         if (playerKey == null) return NotFound("Player key cookie not found");
@@ -39,14 +39,14 @@ public class UserController : AbstractGameController
     [HttpGet]
     public IActionResult GetGuessImage()
     {
-        string? gameId = GetGameIdHeader();
-        if (gameId == null) return NotFound("Game id header not found");
+        string? gameId = GetGameIdCookie();
+        if (gameId == null) return NotFound("Game id cookie not found");
 
         string? gameKey = GetGameKeyCookie(gameId);
         if (gameKey == null) return NotFound("Game key cookie not found");
 
-        string? gameStateId = GetGameStateIdHeader();
-        if (gameStateId == null) return NotFound("Game state id header not found");
+        string? gameStateId = GetGameStateIdCookie(gameId);
+        if (gameStateId == null) return NotFound("Game state id cookie not found");
 
         if (!ServerState.GetGame(gameId, out Game? game)) return NotFound("Game not found");
 
@@ -67,8 +67,8 @@ public class UserController : AbstractGameController
     [HttpGet]
     public IActionResult GetPlayerIcon()
     {
-        string? gameId = GetGameIdHeader();
-        if (gameId == null) return NotFound("Game id header not found");
+        string? gameId = GetGameIdCookie();
+        if (gameId == null) return NotFound("Game id cookie not found");
 
         string? gameKey = GetGameKeyCookie(gameId);
         if (gameKey == null) return NotFound("Game key cookie not found");
@@ -82,14 +82,18 @@ public class UserController : AbstractGameController
 
         if (!game.TryGetPlayer(playerKey, out Player? player)) return NotFound("Player not found");
 
-        return Ok(player.PlayerIcon);
+        return Ok(new
+        {
+            Icon = player.PlayerIcon,
+            Name = player.PlayerName,
+        });
     }
 
     [HttpGet]
     public IActionResult GetPlayerScore()
     {
-        string? gameId = GetGameIdHeader();
-        if (gameId == null) return NotFound("Game id header not found");
+        string? gameId = GetGameIdCookie();
+        if (gameId == null) return NotFound("Game id cookie not found");
 
         string? gameKey = GetGameKeyCookie(gameId);
         if (gameKey == null) return NotFound("Game key cookie not found");
@@ -107,16 +111,30 @@ public class UserController : AbstractGameController
     }
 
     [HttpGet]
+    public IActionResult JoinGame(string gameId)
+    {
+        if (!ServerState.GetGame(gameId, out Game? game)) return NotFound("Game not found");
+
+        if (!game.TryJoinGame(out Player? player)) return Conflict("Cannot join game");
+
+        SetGameIdCookie(gameId);
+        SetGameKeyCookie(gameId, game.GameKey);
+        SetPlayerKeyCookie(gameId, player.PlayerKey);
+
+        return Ok();
+    }
+
+    [HttpGet]
     public IActionResult GetPlayerResults()
     {
-        string? gameId = GetGameIdHeader();
-        if (gameId == null) return NotFound("Game id header not found");
+        string? gameId = GetGameIdCookie();
+        if (gameId == null) return NotFound("Game id cookie not found");
 
         string? gameKey = GetGameKeyCookie(gameId);
         if (gameKey == null) return NotFound("Game key cookie not found");
 
-        string? gameStateId = GetGameStateIdHeader();
-        if (gameStateId == null) return NotFound("Game state id header not found");
+        string? gameStateId = GetGameStateIdCookie(gameId);
+        if (gameStateId == null) return NotFound("Game state id cookie not found");
 
         string? playerKey = GetPlayerKeyCookie(gameId);
         if (playerKey == null) return NotFound("Player key cookie not found");
