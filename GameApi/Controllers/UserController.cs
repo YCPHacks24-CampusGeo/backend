@@ -6,38 +6,39 @@ namespace GameApi.Controllers;
 public class UserController : AbstractGameController
 {
     [HttpPost]
-    public void MakeGuess()
+    public IActionResult MakeGuess()
     {
-
+        throw new NotImplementedException();
     }
 
     [HttpGet]
-    public void GetGuessImage()
+    public IActionResult GetGuessImage()
     {
-
+        throw new NotImplementedException();
     }
 
+    /*
     [HttpPost]
-    public void ExitGame()
+    public IActionResult ExitGame()
     {
+        throw new NotImplementedException();
+    }*/
 
+    [HttpGet]
+    public IActionResult GetPlayerIcon()
+    {
+        throw new NotImplementedException();
     }
 
     [HttpGet]
-    public void GetPlayerIcon()
+    public IActionResult GetPlayerScore()
     {
-
+        throw new NotImplementedException();
     }
 
     [HttpGet]
-    public void GetPlayerScore()
+    public IActionResult GetPlayerResults()
     {
-
-    }
-
-    [HttpGet]
-    public void GetPlayerResults()
-    {
-
+        throw new NotImplementedException();
     }
 }

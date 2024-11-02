@@ -1,10 +1,11 @@
 ﻿using GameApi.Objects;
+using System.Collections.Concurrent;
 
 namespace GameApi.Utils;
 
 public static class GameObjects
 {
-    private static List<Location> Locations = [
+    public static List<Location> Locations = [
         new Location(new GeoLocation(39.946684456618776, -76.72852635383607), "00xldxp3.51k"),
         new Location(new GeoLocation(39.94652817803984, -76.72859743237495), "02w3vdgv.jl1"),
         new Location(new GeoLocation(39.94663716182333, -76.72863364219667), "5i0yjfgo.jt4"),
@@ -26,25 +27,25 @@ public static class GameObjects
         new Location(new GeoLocation(39.94644386971083, -76.72855049371721), "zv4w1ozi.fch"),
     ];
 
-    private static List<string> Markers = [
+    public static List<string> Markers = [
         "Burns",
     ];
 
     private static Random Random = new Random();
 
-    private static Queue<T> CreateRandomQueue<T>(List<T> list)
+    private static ConcurrentQueue<T> CreateRandomQueue<T>(List<T> list)
     {
         T[] array = [.. list];
         Random.Shuffle(array);
-        return new Queue<T>(array);
+        return new ConcurrentQueue<T>(array);
     }
 
-    public static Queue<Location> CreateLocationQueue()
+    public static ConcurrentQueue<Location> CreateLocationQueue()
     {
         return CreateRandomQueue(Locations);
     }
 
-    public static Queue<string> CreateMarkerQueue()
+    public static ConcurrentQueue<string> CreateMarkerQueue()
     {
         return CreateRandomQueue(Markers);
     }

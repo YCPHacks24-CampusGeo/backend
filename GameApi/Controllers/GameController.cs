@@ -6,14 +6,14 @@ namespace GameApi.Controllers;
 public class GameController : AbstractGameController
 {
     [HttpGet]
-    public void GetScores()
+    public IActionResult GetScores()
     {
-
+        throw new NotImplementedException();
     }
 
     [HttpGet]
-    public void GetGameState()
+    public IActionResult GetGameState()
     {
-
+        throw new NotImplementedException();
     }
 }
