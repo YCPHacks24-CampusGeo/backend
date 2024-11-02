@@ -78,8 +78,6 @@ public class HostController : AbstractGameController
     [HttpPost]
     public IActionResult StartGame()
     {
-        throw new NotImplementedException();
-
         string? gameId = GetGameIdHeader();
         if (gameId == null) return NotFound("Game id header not found");
 
@@ -94,11 +92,14 @@ public class HostController : AbstractGameController
 
         if (!ServerState.GetGame(gameId, out Game? game)) return NotFound("Game not found");
 
-        if (game.GameState != GameStates.SETUP) return Conflict("Game is not in intermission");
+        if (game.GameState != GameStates.SETUP) return Conflict("Game is not in setup");
         if (gameStateId != game.GameStateId) return Conflict("Incorrect game state id");
 
         if (game.HostKey != hostKey) return Forbid("Host key incorrect");
         if (game.GameKey != gameKey) return Unauthorized("Game key incorrect");
+
+        game.AdvanceRound();
+        return Ok();
     }
 
     /*
