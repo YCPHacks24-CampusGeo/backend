@@ -18,9 +18,25 @@ public class Game
     public string HostKey = Generators.GenerateHostKey();
     public ConcurrentDictionary<string, Player> Players = new();
 
+
+    public BetterTimer Timer = new()
+    {
+        AutoReset = false,
+        Enabled = false,
+        Interval = Int32.MaxValue
+    };
+    
+
     public Game(GameOptions gameOptions)
     {
         GameOptions = gameOptions;
+        Timer.Elapsed += Timer_Elapsed;
+    }
+
+    private void Timer_Elapsed(object? sender, System.Timers.ElapsedEventArgs e)
+    {
+        Timer.Stop();
+        AdvanceRound();
     }
 
     private void InternalAdvanceGameState(string gameState)
@@ -41,6 +57,8 @@ public class Game
             player.Value.CurrentGuess = null;
         }
 
+        Timer.Interval = GameOptions.GuessTime;
+        Timer.Start();
         CurrentRound ++;
         InternalAdvanceGameState(GameStates.GUESS);
         return true;
@@ -54,6 +72,8 @@ public class Game
             player.Value.Score += gained;
         }
 
+        Timer.Interval = GameOptions.IntermissionTime;
+        Timer.Start();
         InternalAdvanceGameState(GameStates.INTERMISSION);
         return true;
     }
