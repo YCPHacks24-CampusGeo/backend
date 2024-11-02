@@ -18,6 +18,14 @@ public class TestController : ControllerBase
         return GameObjects.Locations[i];
     }
 
+    [NonAction]
+    public string GetRandomIcon()
+    {
+        int i = r.Next(GameObjects.Markers.Count);
+        return GameObjects.Markers[i];
+    }
+
+
     [HttpGet]
     public IActionResult GetLocation()
     {
@@ -48,4 +56,46 @@ public class TestController : ControllerBase
         });
     }
 
+    [HttpGet]
+    public IActionResult GetScores()
+    {
+        List<object> scores = [];
+
+        int m = r.Next(2, 16);
+
+        for (int i = 0; i < m; i++)
+        {
+            scores.Add(new
+            {
+                Name = Generators.GenerateName(),
+                Icon = GetRandomIcon(),
+                Score = r.Next(0, 15000),
+            });
+        }
+
+        return Ok(scores);
+    }
+
+    [HttpGet]
+    public IActionResult GetGuesses()
+    {
+        int m = r.Next(2, 16);
+        List<object> guesses = [];
+
+        for (int i = 0; i < m; i ++)
+        {
+            guesses.Add(new
+            {
+                Name = Generators.GenerateName(),
+                Icon = GetRandomIcon(),
+                Guess = GetRandomLocation().GeoLocation
+            });
+        }
+
+        return Ok(new
+        {
+            Correct = GetRandomLocation(),
+            Guesses = guesses
+        });
+    }
 }
