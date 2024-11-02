@@ -44,7 +44,7 @@ public static class Generators
         "Pico",
         "Floppy",
         "RGB",
-        "Div",
+        "Ordinary",
         "Vampirical",
         "discord.gg/",
         "ArrayList"
@@ -136,8 +136,8 @@ public static class Generators
         "Steak",
         "Lizzy",
         "Pikachu",
-        "Anthony",
-        "Caroline",
+        "Moscola",
+        "Babcock",
         "Nun",
         "Tummy",
         "Dog",
@@ -173,7 +173,7 @@ public static class Generators
 
     public static string GenerateName()
     {
-        return $"{PickInsecureRandomFromList(Modifiers)} {PickInsecureRandomFromList(Adjectives)} {PickInsecureRandomFromList(Nouns)}";
+        return $"{PickInsecureRandomFromList(Modifiers)}{PickInsecureRandomFromList(Adjectives)}{PickInsecureRandomFromList(Nouns)}";
     }
 
     public static string GenerateGameKey()
