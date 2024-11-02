@@ -73,7 +73,9 @@ internal static class ScoreCalculator
         return 1 - Math.Clamp(result, 0d, 1d);
         */
 
-        double result = Math.Sin(scaledDistance * Math.PI/2d);
+        //double result = Math.Sin(scaledDistance * Math.PI/2d);
+
+        double result = 1d - scaledDistance;
         return Math.Clamp(result, 0d, 1d);
     }
 
