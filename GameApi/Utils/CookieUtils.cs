@@ -19,6 +19,7 @@ public class CookieUtils
         IsEssential = true,
         Secure = true,
         Path = "/",
+        SameSite = SameSiteMode.None,
     };
 
     public static bool TryGetCookie(HttpRequest request, string name, [NotNullWhen(true)] out string? result)
