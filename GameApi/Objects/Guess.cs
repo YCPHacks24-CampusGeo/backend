@@ -68,16 +68,7 @@ internal static class ScoreCalculator
     // Output 1 - full points
     internal static double CalculatePoints(double scaledDistance)
     {
-        double halfpi = Math.PI / 2d;
-
-        double xpower = 13d / 20d;
-        double xscale = 28_849d / 720d;
-
-        double addend = 1d;
-        double denominator = 2d;
-
-        double result = (Math.Sin(Math.Pow(scaledDistance, xpower) * xscale + halfpi) + addend) / denominator;
-
+        double result = (Math.Cos(0.01319d * Math.Pow(4532.18 * scaledDistance, 0.65)) + 1) / 2d;
         return Math.Clamp(result, 0d, 1d);
     }
 
