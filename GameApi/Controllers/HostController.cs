@@ -102,11 +102,9 @@ public class HostController : AbstractGameController
         return Ok();
     }
 
-    /*
     [HttpPost]
     public IActionResult DeleteGame()
     {
-
+        throw new NotImplementedException();
     }
-    */
 }

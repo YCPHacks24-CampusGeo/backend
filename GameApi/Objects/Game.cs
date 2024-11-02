@@ -7,7 +7,7 @@ namespace GameApi.Objects;
 public class Game
 {
     public GameOptions GameOptions { get; set; }
-    public Location CurrentLocation { get; set; }
+    public Location? CurrentLocation { get; set; }
     public ConcurrentQueue<string> AvailableMarkers = GameObjects.CreateMarkerQueue();
     public ConcurrentQueue<Location> AvailableLocations = GameObjects.CreateLocationQueue();
     public uint CurrentRound { get; set; } = 0;
@@ -35,8 +35,40 @@ public class Game
 
         if (!AvailableLocations.TryDequeue(out Location? location)) return false;
 
+        CurrentLocation = location;
+        foreach (var player in Players)
+        {
+            player.Value.CurrentGuess = null;
+        }
+
         CurrentRound ++;
         InternalAdvanceGameState(GameStates.GUESS);
+        return true;
+    }
+
+    private bool StartIntermissionRound()
+    {
+        foreach (var player in Players)
+        {
+            uint gained = player.Value.CurrentGuess?.Points ?? 0;
+            player.Value.Score += gained;
+        }
+
+        InternalAdvanceGameState(GameStates.INTERMISSION);
+        return true;
+    }
+
+    private bool EndGame()
+    {
+        CurrentLocation = null;
+
+        foreach (var player in Players)
+        {
+            player.Value.CurrentGuess = null;
+        }
+
+        InternalAdvanceGameState(GameStates.COMPLETE);
+
         return true;
     }
 
@@ -47,18 +79,23 @@ public class Game
         {
             case GameStates.SETUP:
                 result = StartGuessRound();
-                if (!StartGuessRound()) InternalAdvanceGameState(GameStates.COMPLETE);
+                if (!result) EndGame();
                 return result;
             case GameStates.GUESS:
-                InternalAdvanceGameState(GameStates.INTERMISSION);
+                StartIntermissionRound();
                 return true;
             case GameStates.INTERMISSION:
                 result = StartGuessRound();
-                if (!StartGuessRound()) InternalAdvanceGameState(GameStates.COMPLETE);
+                if (!result) EndGame();
                 return result;
             default:
                 return false;
         }
+    }
+
+    public bool TryGetPlayer(string playerKey, [NotNullWhen(true)] out Player? player)
+    {
+        return Players.TryGetValue(playerKey, out player);
     }
 
     public bool TryJoinGame([NotNullWhen(true)] out Player? player)
