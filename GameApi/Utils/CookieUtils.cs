@@ -13,12 +13,13 @@ public class CookieUtils
 
     private static readonly CookieOptions CookieOptions = new()
     {
-        Domain = "api.ycp.campusgeo.com",
+        Domain = ".ycp.campusgeo.com",
         //Domain = "localhost",
         HttpOnly = false,
         IsEssential = true,
         Secure = true,
         Path = "/",
+        SameSite = SameSiteMode.None,
     };
 
     public static bool TryGetCookie(HttpRequest request, string name, [NotNullWhen(true)] out string? result)
