@@ -15,7 +15,7 @@ public class CookieUtils
     {
         Domain = ".api.ycp.campusgeo.com",
         //Domain = "localhost",
-        HttpOnly = false,
+        HttpOnly = true,
         IsEssential = true,
         Secure = true,
         Path = "/",

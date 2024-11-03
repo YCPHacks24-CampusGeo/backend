@@ -8,6 +8,15 @@ namespace GameApi.Controllers;
 public class GameController : AbstractGameController
 {
     [HttpGet]
+    public IActionResult GetGameId()
+    {
+        string? gameId = GetGameIdCookie();
+        if (gameId == null) return NotFound("Game id cookie not found");
+
+        return Ok(gameId);
+    }
+
+    [HttpGet]
     public IActionResult GetScores()
     {
         string? gameId = GetGameIdCookie();
