@@ -13,7 +13,7 @@ public class CookieUtils
 
     private static readonly CookieOptions CookieOptions = new()
     {
-        Domain = ".api.ycp.campusgeo.com",
+        Domain = ".ycp.campusgeo.com",
         //Domain = "localhost",
         HttpOnly = true,
         IsEssential = true,
