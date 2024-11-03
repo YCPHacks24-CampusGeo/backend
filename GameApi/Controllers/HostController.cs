@@ -50,13 +50,9 @@ public class HostController : AbstractGameController
         string? gameKey = GetGameKeyCookie(gameId);
         if (gameKey == null) return NotFound("Game key cookie not found");
 
-        string? gameStateId = GetGameStateIdCookie(gameId);
-        if (gameStateId == null) return NotFound("Game state id cookie not found");
-
         if (!ServerState.GetGame(gameId, out Game? game)) return NotFound("Game not found");
 
         if (game.GameState != GameStates.SETUP) return Conflict("Game is not in setup");
-        if (gameStateId != game.GameStateId) return Conflict("Incorrect game state id");
 
         if (game.HostKey != hostKey) return Forbid("Host key incorrect");
         if (game.GameKey != gameKey) return Unauthorized("Game key incorrect");
