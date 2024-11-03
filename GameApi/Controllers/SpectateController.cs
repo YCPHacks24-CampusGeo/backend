@@ -15,6 +15,8 @@ public class SpectateController : AbstractGameController
         SetGameIdCookie(gameId);
         SetGameKeyCookie(gameId, game.GameKey);
 
+        SillyLog.Log($"Spectator joined {gameId}");
+
         return Ok();
     }
     
@@ -31,6 +33,8 @@ public class SpectateController : AbstractGameController
         if (!ServerState.GetGame(gameId, out Game? game)) return NotFound("Game not found");
 
         if (game.GameKey != gameKey) return Unauthorized("Game key incorrect");
+
+        SillyLog.Log($"Scores requested from {gameId}");
 
         List<object> scores = [];
         foreach (var player in game.Players)
@@ -64,6 +68,8 @@ public class SpectateController : AbstractGameController
         if (gameStateId != game.GameStateId) return Conflict("Incorrect game state id");
 
         if (game.GameKey != gameKey) return Unauthorized("Game key incorrect");
+
+        SillyLog.Log($"Guesses requested from {gameId}");
 
         Location correct = game.CurrentLocation;
         List<object> guesses = [];

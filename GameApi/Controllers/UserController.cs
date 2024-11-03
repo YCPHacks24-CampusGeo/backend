@@ -1,6 +1,7 @@
 ﻿using GameApi.Objects;
 using GameApi.Utils;
 using Microsoft.AspNetCore.Mvc;
+using System.Numerics;
 
 namespace GameApi.Controllers;
 [Route("[controller]/[action]")]
@@ -31,6 +32,8 @@ public class UserController : AbstractGameController
         if (game.GameState != GameStates.GUESS) return Conflict("Game is not in guess");
         if (gameStateId != game.GameStateId) return Conflict("Incorrect game state id");
 
+        SillyLog.Log($"Guess made for {gameId} - player: {player.PlayerName}");
+
         player.CurrentGuess = new Guess(location, game.CurrentLocation?.GeoLocation);
         
         return Ok();
@@ -54,6 +57,8 @@ public class UserController : AbstractGameController
 
         if (game.GameState != GameStates.GUESS) return Conflict("Game is not in guess");
         if (gameStateId != game.GameStateId) return Conflict("Incorrect game state id");
+
+        SillyLog.Log($"Image request made for {gameId}");
 
         return Ok(game.CurrentLocation?.ImageKey);
     }
@@ -82,6 +87,8 @@ public class UserController : AbstractGameController
 
         if (!game.TryGetPlayer(playerKey, out Player? player)) return NotFound("Player not found");
 
+        SillyLog.Log($"Get icon made for {gameId} - player: {player.PlayerName}");
+
         return Ok(new
         {
             Icon = player.PlayerIcon,
@@ -107,6 +114,8 @@ public class UserController : AbstractGameController
 
         if (!game.TryGetPlayer(playerKey, out Player? player)) return NotFound("Player not found");
 
+        SillyLog.Log($"Get score made for {gameId} - player: {player.PlayerName}");
+
         return Ok(player.Score);
     }
 
@@ -120,6 +129,8 @@ public class UserController : AbstractGameController
         SetGameIdCookie(gameId);
         SetGameKeyCookie(gameId, game.GameKey);
         SetPlayerKeyCookie(gameId, player.PlayerKey);
+
+        SillyLog.Log($"Player joined {gameId} - player: {player.PlayerName}");
 
         return Ok();
     }
@@ -147,6 +158,8 @@ public class UserController : AbstractGameController
 
         if (game.GameState != GameStates.INTERMISSION) return Conflict("Game is not in intermission");
         if (gameStateId != game.GameStateId) return Conflict("Incorrect game state id");
+
+        SillyLog.Log($"Player results requested for {gameId} - player: {player.PlayerName}");
 
         return Ok(new
         {

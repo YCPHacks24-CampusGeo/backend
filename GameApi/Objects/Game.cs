@@ -41,6 +41,8 @@ public class Game
 
     private void InternalAdvanceGameState(string gameState)
     {
+        SillyLog.Log($"Game state change: {gameState} - {GameId}");
+
         GameState = gameState;
         GameStateId = Generators.GenerateGameStateId();
     }
@@ -59,6 +61,7 @@ public class Game
 
         Timer.Interval = GameOptions.GuessTime;
         Timer.Start();
+        SillyLog.Log($"Guess timer started: {GameId} - {GameOptions.GuessTime}");
         CurrentRound ++;
         InternalAdvanceGameState(GameStates.GUESS);
         return true;
@@ -74,6 +77,7 @@ public class Game
 
         Timer.Interval = GameOptions.IntermissionTime;
         Timer.Start();
+        SillyLog.Log($"Intermission timer started: {GameId} - {GameOptions.IntermissionTime}");
         InternalAdvanceGameState(GameStates.INTERMISSION);
         return true;
     }
@@ -94,6 +98,8 @@ public class Game
 
     public bool AdvanceRound()
     {
+        SillyLog.Log($"Advance round: {GameId}");
+
         bool result;
         switch (GameState)
         {

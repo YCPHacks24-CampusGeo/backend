@@ -1,6 +1,7 @@
 ﻿using GameApi.Objects;
 using GameApi.Utils;
 using Microsoft.AspNetCore.Mvc;
+using System.Numerics;
 
 namespace GameApi.Controllers;
 [Route("[controller]/[action]")]
@@ -18,6 +19,9 @@ public class HostController : AbstractGameController
                 SetGameKeyCookie(game.GameId, game.GameKey);
                 SetHostKeyCookie(game.GameId, game.HostKey);
                 SetGameIdCookie(game.GameId);
+
+                SillyLog.Log($"Game created {game.GameId}");
+
                 return Ok(game.GameId);
 
             }
@@ -56,6 +60,8 @@ public class HostController : AbstractGameController
 
         if (game.HostKey != hostKey) return Forbid("Host key incorrect");
         if (game.GameKey != gameKey) return Unauthorized("Game key incorrect");
+
+        SillyLog.Log($"Game started {game.GameId}");
 
         game.AdvanceRound();
         return Ok();
