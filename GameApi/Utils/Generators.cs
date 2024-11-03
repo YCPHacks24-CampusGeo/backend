@@ -59,8 +59,6 @@ public static class Generators
         "Blue",
         "Stinky",
         "Scary",
-        "Kinky",
-        "Sexy",
         "Lanky",
         "Dreamy",
         "Bouncing",
@@ -77,9 +75,7 @@ public static class Generators
         "Athletic",
         "Walking",
         "Powerful",
-        "Hard",
         "Playful",
-        "Illegal",
         "Attractive",
         "Colossal",
         "Scary",
@@ -94,14 +90,12 @@ public static class Generators
         "Purple",
         "Dead",
         "Bubbly",
-        "Murderous",
         "Invisible",
         "Sweaty",
         "Speedy",
         "Strange",
         "Derpy",
         "Shiny",
-        "Hateful",
         "Loving",
         "Lonely",
         "Dizzy",
@@ -111,7 +105,13 @@ public static class Generators
         "Vanilla",
         "Spicy",
         "Tasty",
+        "Cheerful",
+        "Brave",
+        "Mysterious",
+        "Clever",
+        "Friendly"
     ];
+
 
     private static List<string> Nouns = [
         "Hacker",
