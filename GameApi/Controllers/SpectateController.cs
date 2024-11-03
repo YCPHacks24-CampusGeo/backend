@@ -52,9 +52,6 @@ public class SpectateController : AbstractGameController
         string? gameId = GetGameIdCookie();
         if (gameId == null) return NotFound("Game id cookie not found");
 
-        string? hostKey = GetHostKeyCookie(gameId);
-        if (hostKey == null) return NotFound("Host key cookie not found");
-
         string? gameKey = GetGameKeyCookie(gameId);
         if (gameKey == null) return NotFound("Game key cookie not found");
 
@@ -66,7 +63,6 @@ public class SpectateController : AbstractGameController
         if (game.GameState != GameStates.INTERMISSION) return Conflict("Game is not in intermission");
         if (gameStateId != game.GameStateId) return Conflict("Incorrect game state id");
 
-        if (game.HostKey != hostKey) return Forbid("Host key incorrect");
         if (game.GameKey != gameKey) return Unauthorized("Game key incorrect");
 
         Location correct = game.CurrentLocation;
