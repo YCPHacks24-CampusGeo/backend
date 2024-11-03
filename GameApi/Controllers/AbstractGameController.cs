@@ -1,5 +1,4 @@
-﻿using GameApi.Objects;
-using GameApi.Utils;
+﻿using GameApi.Utils;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GameApi.Controllers;
@@ -10,8 +9,7 @@ public abstract class AbstractGameController : ControllerBase
     [NonAction]
     public string? GetGameKeyCookie(string gameId)
     {
-        string cookieName = $"{gameId}-{CookieUtils.GameKey}";
-        if (CookieUtils.TryGetCookie(Request, cookieName, out string? result)) {
+        if (CookieUtils.TryGetCookie(Request, CookieUtils.GameKey, out string? result)) {
             return result;
         } else
         {
@@ -22,8 +20,7 @@ public abstract class AbstractGameController : ControllerBase
     [NonAction]
     public string? GetHostKeyCookie(string gameId)
     {
-        string cookieName = $"{gameId}-{CookieUtils.HostKey}";
-        if (CookieUtils.TryGetCookie(Request, cookieName, out string? result))
+        if (CookieUtils.TryGetCookie(Request, CookieUtils.HostKey, out string? result))
         {
             return result;
         }
@@ -36,8 +33,7 @@ public abstract class AbstractGameController : ControllerBase
     [NonAction]
     public string? GetPlayerKeyCookie(string gameId)
     {
-        string cookieName = $"{gameId}-{CookieUtils.PlayerKey}";
-        if (CookieUtils.TryGetCookie(Request, cookieName, out string? result))
+        if (CookieUtils.TryGetCookie(Request, CookieUtils.PlayerKey, out string? result))
         {
             return result;
         }
@@ -50,8 +46,7 @@ public abstract class AbstractGameController : ControllerBase
     [NonAction]
     public string? GetGameStateIdCookie(string gameId)
     {
-        string cookieName = $"{gameId}-{CookieUtils.GameStateId}";
-        if (CookieUtils.TryGetCookie(Request, cookieName, out string? result))
+        if (CookieUtils.TryGetCookie(Request, CookieUtils.GameStateId, out string? result))
         {
             return result;
         } else
@@ -63,8 +58,7 @@ public abstract class AbstractGameController : ControllerBase
     [NonAction]
     public void SetGameStateIdCookie(string gameId, string value)
     {
-        string cookieName = $"{gameId}-{CookieUtils.GameStateId}";
-        CookieUtils.SetCookie(Response, cookieName, value);
+        CookieUtils.SetCookie(Response, CookieUtils.GameStateId, value);
     }
 
     [NonAction]
@@ -89,21 +83,18 @@ public abstract class AbstractGameController : ControllerBase
     [NonAction]
     public void SetGameKeyCookie(string gameId, string value)
     {
-        string cookieName = $"{gameId}-{CookieUtils.GameKey}";
-        CookieUtils.SetCookie(Response, cookieName, value);
+        CookieUtils.SetCookie(Response, CookieUtils.GameKey, value);
     }
 
     [NonAction]
     public void SetHostKeyCookie(string gameId, string value)
     {
-        string cookieName = $"{gameId}-{CookieUtils.HostKey}";
-        CookieUtils.SetCookie(Response, cookieName, value);
+        CookieUtils.SetCookie(Response, CookieUtils.HostKey, value);
     }
 
     [NonAction]
     public void SetPlayerKeyCookie(string gameId, string value)
     {
-        string cookieName = $"{gameId}-{CookieUtils.PlayerKey}";
-        CookieUtils.SetCookie(Response, cookieName, value);
+        CookieUtils.SetCookie(Response, CookieUtils.PlayerKey, value);
     }
 }
