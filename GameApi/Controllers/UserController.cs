@@ -133,6 +133,8 @@ public class UserController : AbstractGameController
             }
         }
 
+        if (game.GameState != GameStates.SETUP) return Conflict("Cannot join game");
+
         if (!game.TryJoinGame(out Player? player)) return Conflict("Cannot join game");
 
         SetGameIdCookie(gameId);
