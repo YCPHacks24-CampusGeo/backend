@@ -124,6 +124,15 @@ public class UserController : AbstractGameController
     {
         if (!ServerState.GetGame(gameId, out Game? game)) return NotFound("Game not found");
 
+        string? playerKey = GetPlayerKeyCookie(gameId);
+        if (playerKey != null)
+        {
+            if (game.TryGetPlayer(playerKey, out Player? oldPlayer))
+            {
+                return Conflict("Already in game");
+            }
+        }
+
         if (!game.TryJoinGame(out Player? player)) return Conflict("Cannot join game");
 
         SetGameIdCookie(gameId);
